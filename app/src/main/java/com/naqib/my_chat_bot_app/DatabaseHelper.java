@@ -1,6 +1,5 @@
 package com.naqib.my_chat_bot_app;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,15 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-    }
-
-    public void insertResponse(String question, String response) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_QUESTION, question);
-        values.put(COLUMN_RESPONSE, response);
-        db.insert(TABLE_NAME, null, values);
-        db.close();
     }
 
     public String getResponse(String question) {

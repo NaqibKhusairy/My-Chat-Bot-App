@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,12 +30,7 @@ public class MainActivity extends AppCompatActivity {
         chatRecyclerView.setAdapter(chatAdapter);
 
         Button sendButton = findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSendMessage();
-            }
-        });
+        sendButton.setOnClickListener(v -> onSendMessage());
     }
 
     public void onSendMessage() {
@@ -55,5 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private void addMessage(String sender, String message) {
         chatAdapter.addMessage(new ChatMessage(sender, message));
         chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
+    }
+
+    public void onSendMessage(View view) {
     }
 }

@@ -24,14 +24,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type your message" />
+            android:hint="@string/typeMessage"
+            android:autofillHints="@string/typeMessage"
+            tools:ignore="TextFields" />
 
         <Button
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
-            android:onClick="onSendMessage" />
+            android:text="@string/sendMessageBtn"
+            android:onClick="onSendMessage"
+            tools:ignore="UsingOnClickInXml" />
     </LinearLayout>
 
 </RelativeLayout>
