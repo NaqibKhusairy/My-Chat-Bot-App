@@ -20,7 +20,7 @@ import android.widget.Toast;
 public class TeachBot extends AppCompatActivity {
     EditText questionEditText, answerEditText;
     Button sendQuestionButton, sendAnswerButton;
-    TextView HiddenTV;
+    TextView hiddenTV;
     SQLiteDatabase mDatabase;
     String Q, A;
 
@@ -30,81 +30,75 @@ public class TeachBot extends AppCompatActivity {
         setContentView(R.layout.activity_teach_bot);
 
         mDatabase = openOrCreateDatabase("chatbot.db", MODE_PRIVATE, null);
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS  chat_responses ("
-                + "question"+ " TEXT PRIMARY KEY, "
-                + "response" + " TEXT)";
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS chat_responses ("
+                + "question TEXT PRIMARY KEY, "
+                + "response TEXT)";
         mDatabase.execSQL(createTableQuery);
 
         questionEditText = findViewById(R.id.userInput);
         sendQuestionButton = findViewById(R.id.sendButton);
         answerEditText = findViewById(R.id.userInput2);
         sendAnswerButton = findViewById(R.id.sendButton2);
-        HiddenTV = findViewById(R.id.tv1);
+        hiddenTV = findViewById(R.id.tv1);
 
         answerEditText.setVisibility(View.GONE);
         sendAnswerButton.setVisibility(View.GONE);
-        HiddenTV.setVisibility(View.GONE);
+        hiddenTV.setVisibility(View.GONE);
 
-        sendQuestionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Q = questionEditText.getText().toString();
-                if (Q.equals("")) {
-                    questionEditText.setError("Please Enter Your Question");
+        sendQuestionButton.setOnClickListener(view -> {
+            Q = questionEditText.getText().toString().toUpperCase();
+            if (Q.equals("")) {
+                questionEditText.setError("Please Enter Your Question");
+            } else {
+                boolean questionExists = checkQuestionExists(Q);
+
+                if (questionExists) {
+                    Toast.makeText(TeachBot.this, "The Question is already in my library.\nPlease Enter The Other Question", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    boolean questionExists = checkQuestionExists(Q);
-
-                    if (questionExists) {
-                        Toast.makeText(TeachBot.this, "Dah Ada", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Q = Q.toUpperCase();
-                        HiddenTV.setText(Q);
-                        questionEditText.setText("");
-                        questionEditText.setVisibility(View.GONE);
-                        sendQuestionButton.setVisibility(View.GONE);
-                        answerEditText.setVisibility(View.VISIBLE);
-                        sendAnswerButton.setVisibility(View.VISIBLE);
-                    }
+                    hiddenTV.setText(Q);
+                    questionEditText.setText("");
+                    questionEditText.setEnabled(false);
+                    questionEditText.setVisibility(View.GONE);
+                    sendQuestionButton.setVisibility(View.GONE);
+                    answerEditText.setVisibility(View.VISIBLE);
+                    answerEditText.setEnabled(true);
+                    sendAnswerButton.setVisibility(View.VISIBLE);
                 }
             }
+        });
 
-            private boolean checkQuestionExists(String Q) {
-                String query = "SELECT * FROM chat_responses WHERE question = ?";
-                try (Cursor cursor = mDatabase.rawQuery(query, new String[]{Q})) {
-                    return cursor.getCount() > 0;
+        sendAnswerButton.setOnClickListener(view -> {
+            A = answerEditText.getText().toString();
+            Q = hiddenTV.getText().toString();
+            if (A.equals("")) {
+                answerEditText.setError("Please Enter The Answer");
+            } else {
+                questionEditText.setVisibility(View.VISIBLE);
+                questionEditText.setEnabled(true);
+                sendQuestionButton.setVisibility(View.VISIBLE);
+                answerEditText.setText("");
+                answerEditText.setVisibility(View.GONE);
+                answerEditText.setEnabled(false);
+                sendAnswerButton.setVisibility(View.GONE);
+                try {
+                    String insertSQL = "INSERT INTO chat_responses (question, response) " +
+                            "VALUES (?, ?)";
+
+                    mDatabase.execSQL(insertSQL, new String[]{Q, A});
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    return false;
                 }
             }
         });
-
-        sendAnswerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                A = answerEditText.getText().toString();
-                Q = HiddenTV.getText().toString();
-                if (A.equals("")) {
-                    answerEditText.setError("Please Enter The Answer");
-                } else {
-                    questionEditText.setVisibility(View.VISIBLE);
-                    sendQuestionButton.setVisibility(View.VISIBLE);
-                    answerEditText.setText("");
-                    answerEditText.setVisibility(View.GONE);
-                    sendAnswerButton.setVisibility(View.GONE);
-                    try {
-                        String insertSQL = "INSERT INTO chat_responses (question, response) " +
-                                "VALUES (?, ?)";
-
-                        mDatabase.execSQL(insertSQL, new String[]{Q, A});
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            }
-        });
+    }
+    private boolean checkQuestionExists(String Q) {
+        String query = "SELECT * FROM chat_responses WHERE question = ?";
+        try (Cursor cursor = mDatabase.rawQuery(query, new String[]{Q})) {
+            return cursor.getCount() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
