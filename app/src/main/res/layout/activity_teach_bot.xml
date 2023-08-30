@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".TeachBot">
 
     <EditText
@@ -13,6 +14,8 @@
         android:layout_weight="1"
         android:autofillHints="@string/typeMessage"
         android:hint="@string/typeMessage"
+        android:textColor="@color/black"
+        android:textColorHint="#DF3A3A3A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sendButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sendMessageBtn"
+        android:backgroundTint="#27F0A9"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/userInput"
@@ -37,6 +42,8 @@
         android:layout_weight="1"
         android:autofillHints="@string/type_the_answer"
         android:hint="@string/type_the_answer"
+        android:textColor="@color/black"
+        android:textColorHint="#DF3A3A3A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sendButton2"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sendMessageBtn"
+        android:backgroundTint="#2B95F3"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/userInput2"

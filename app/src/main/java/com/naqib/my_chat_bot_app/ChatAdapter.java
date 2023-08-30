@@ -35,9 +35,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         if ("User".equals(message.getSender())) {
             holder.senderTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             holder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            holder.senderTextView.setBackgroundResource(R.drawable.user_message_background);
+            holder.messageTextView.setBackgroundResource(R.drawable.user_message_background);
         } else if ("Chatbot".equals(message.getSender())) {
             holder.senderTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             holder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            holder.senderTextView.setBackgroundResource(R.drawable.chatbot_message_background);
+            holder.messageTextView.setBackgroundResource(R.drawable.chatbot_message_background);
         }
 
         holder.senderTextView.setText(message.getSender());
