@@ -4,4 +4,8 @@
     <string name="sendMessageBtn">Send</string>
     <string name="user">User</string>
     <string name="answer">Answer</string>
+    <string name="chatbot">Chat With Bot</string>
+    <string name="teachbot">Teach The Bot</string>
+    <string name="teachignbot">Teach The Bot</string>
+    <string name="type_the_answer">Type The Answer</string>
 </resources>

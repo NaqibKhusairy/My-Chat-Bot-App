@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableQuery = "CREATE TABLE " + TABLE_NAME + " ("
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + COLUMN_QUESTION + " TEXT PRIMARY KEY, "
                 + COLUMN_RESPONSE + " TEXT)";
         db.execSQL(createTableQuery);
